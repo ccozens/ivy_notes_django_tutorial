@@ -26,7 +26,7 @@ function NotePage(props) {
 
 	// create note
 	const createNote = async () => {
-		await fetch(`http://localhost:8000/api/notes/create/`, {
+		await fetch(`http://localhost:8000/api/notes/`, {
 			method: 'POST',
 			headers: {
 				'Content-type': 'application/json',
@@ -39,7 +39,7 @@ function NotePage(props) {
 	// update note
 	const updateNote = async () => {
 		// await fetch(`http://localhost:8000/notes/${noteId}`, {
-		await fetch(`http://localhost:8000/api/notes/${noteId}/update/`, {
+		await fetch(`http://localhost:8000/api/notes/${noteId}`, {
 			method: 'PUT',
 			headers: {
 				'Content-type': 'application/json',
@@ -51,7 +51,7 @@ function NotePage(props) {
 	};
 
 	const deleteNote = async () => {
-		await fetch(`http://localhost:8000/api/notes/${noteId}/delete/`, {
+		await fetch(`http://localhost:8000/api/notes/${noteId}`, {
 			method: 'DELETE',
 			headers: {
 				'Content-type': 'application/json',
@@ -93,6 +93,7 @@ function NotePage(props) {
 				)}
 			</div>
 			<textarea
+				autoFocus
 				value={note ? note.body : ''}
 				onChange={(e) => {
 					setNote({ ...note, body: e.target.value });

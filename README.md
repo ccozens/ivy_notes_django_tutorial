@@ -48,3 +48,14 @@ Few fixes:
 3. Go to Django, replicate every URL, and point to react project. For more, look up "react router URL issues server side rendering".
 
 ## Making apis RESTful
+
+Currently, out GET requests are sent to `/notes`, and our POST requests are sent to `/notes/create`, whereas RESTful practices should send to GET and POST to `/notes`. All that means the views need to handle all the HTTP requests differently:
+
+/notes GET
+/notes POST
+/notes/<id> GET
+/notes/<id> PUT
+/notes/<id> DELETE
+
+1. create api/utils.py
+2.

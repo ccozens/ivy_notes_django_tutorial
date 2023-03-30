@@ -1,8 +1,7 @@
 from django.shortcuts import render
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .models import Note
-from .serializers import NoteSerializer
+from .utils import getNoteDetail, updateNote, deleteNote, getNotesList, createNewNote
 
 
 @api_view(["GET"])  # specify HTTP request types allowed to this view
@@ -24,24 +23,28 @@ def getRoutes(request):
     return Response(routes)
 
 
-@api_view(["GET"])
+@api_view(["GET", "POST"])
 def getNotes(request):
-    notes = Note.objects.all().order_by("-updated")  # orders by most recently updated
-    serializer = NoteSerializer(
-        notes, many=True
-    )  # many=True because we are serializing multiple objects. Will return back a queryset
-    return Response(
-        serializer.data
-    )  # serializer is an object so this returns the data to frontend
+    if request.method == "GET":
+        return getNotesList(request)
+
+    if request.method == "POST":
+        return createNewNote(request)
 
 
-@api_view(["GET"])
+@api_view(["GET", "PUT", "DELETE"])
 def getNote(request, pk):
-    note = Note.objects.get(id=pk)
-    serializer = NoteSerializer(note, many=False)
-    return Response(serializer.data)
+    if request.method == "GET":
+        return getNoteDetail(request, pk)
+
+    if request.method == "PUT":
+        return updateNote(request, pk)
+
+    if request.method == "DELETE":
+        return deleteNote(request, pk)
 
 
+"""
 @api_view(["PUT"])
 def updateNote(request, pk):
     data = request.data  # get json data
@@ -69,4 +72,4 @@ def createNote(request):
     )
     serializer = NoteSerializer(note, many=False)
  
-    return Response(serializer.data)
+    return Response(serializer.data) """
